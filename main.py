@@ -15,21 +15,42 @@ def index():
 
 @app.route('/libros')
 def libros():
-    """Conectar con la base de datos"""
-    conexion = psycopg2.connect(
-        database = "Blblioteca3A",
-        user = "postgres",
-        password ="tVE4QgrFP9rnEb",
+    # Conectar con la base de datos
+    conexion = psycopg2.connect (
+        database="Bliblioteca3A",
+        user="postgres",
+        password="tVE4QgrFP9rnEb",
         host="localhost",
         port="5432"
     )
-    """crear un cursor  (objeto para recorrer tablas)"""
-    cursor= conexion.cursor()
-    """ejecutar una consulta en postgreSQL que recupera toda la informacion de los libros"""
-    cursor.execute('''SELECT * FROM "Libro"''')
-    """recupera información"""
-    datos=cursor.fetchall()
-    """cerrar cursor y conexion a la base de datos"""
+    # crear un cursor (objeto para recorrer las tablas)
+    cursor = conexion.cursor()
+    # ejecutar una consulta en postgres
+    cursor.execute('''SELECT * FROM libros_vistas''')
+    #recuperar la informacion
+    datos = cursor.fetchall()
+    #cerrar cursos y conexion a la base de datos
     cursor.close()
     conexion.close()
     return render_template('libros.html', datos=datos)
+
+@app.route('/autores')
+def autores():
+    # Conectar con la base de datos
+    conexion = psycopg2.connect (
+        database="Bliblioteca3A",
+        user="postgres",
+        password="tVE4QgrFP9rnEb",
+        host="localhost",
+        port="5432"
+    )
+    # crear un cursor (objeto para recorrer las tablas)
+    cursor = conexion.cursor()
+    # ejecutar una consulta en postgres
+    cursor.execute('''SELECT * FROM autores_view''')
+    #recuperar la informacion
+    datos = cursor.fetchall()
+    #cerrar cursos y conexion a la base de datos
+    cursor.close()
+    conexion.close()
+    return render_template('autores.html', datos=datos)
