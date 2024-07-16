@@ -1,0 +1,63 @@
+{% extends 'bootstrap/base.html' %}
+{% block head %}
+    {{ super() }}
+    <title>
+        {% block title %} 
+            Biblioteca Web App - Editar país
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="../static/style/style.css">
+{% endblock %}
+
+{% block body %}
+
+    {% block navbar %}
+        {% include 'navbar.html' %}
+    {% endblock %}
+
+    {% block content %}
+    <div class="container-fluid">
+        <h2>Edicion de paises</h2>
+        <form action="">
+            {% for pais in datos %}
+                <input type="hidden" name="id" value="{{pais[0]}}">
+                <label for="nombre">Nombre del pais</label>
+                <input type="text" name="nombre" value="{{pais[1]}}">
+                <input type="submit" value="Actualizar">
+                <a href="{{url_for('index')}}">Cancelar</a>
+            {% endfor %}
+        </form>
+        <!-- <table class="table table-success table-striped">
+            <tr>
+                <th scope="col">Id. del país</th>
+                <th scope="col">País</th>
+                <th scope="col">Editar</th>
+                <th scope="col">Eliminar</th>
+            </tr>
+            {% for pais in datos %}
+                <tr>
+                    <td>{{ pais[0] }}</td>
+                    <td>{{ pais[1] }}</td>
+                    
+                    <td>
+                        <form action="{{url_for('update1_pais', id_pais=pais[0])}}" method="POST">
+                            <button type="submit" class="btn btn-primary">
+                                Editar
+                            </button>
+                        </form>
+                    </td>
+                    
+                    <td>
+                        <form action="{{url_for('delete_pais', id_pais=pais[0])}}" method="POST">
+                            
+                            <button type="submit" class="btn btn-danger">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        <!-- </table> -->
+    </div>
+    {% endblock %}
+{% endblock %}
