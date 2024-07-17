@@ -69,7 +69,7 @@ def pais():
     # crear un cursor (objeto para recorrer las tablas)
     cursor = conexion.cursor()
     # ejecutar una consulta en postgres
-    cursor.execute('''SELECT * FROM "Pais"''')
+    cursor.execute('''SELECT * FROM "Pais" ORDER BY id_pais''')
     #recuperar la informacion
     datos = cursor.fetchall()
     #cerrar cursos y conexion a la base de datos
@@ -97,7 +97,7 @@ def delete_pais(id_pais):
     conexion.close()
     return redirect(url_for('index'))
 
-@app.route('/update1_pais/<int:id_pais>', methods=['GET','POST'])
+@app.route('/update1_pais/<int:id_pais>', methods=['POST'])
 def update1_pais(id_pais):
         # Conectar con la base de datos
     conexion = psycopg2.connect (
@@ -112,12 +112,26 @@ def update1_pais(id_pais):
     # recuperar un registro con el id_pais seleccionado
     cursor.execute('''SELECT * FROM "Pais" WHERE id_pais=%s''', (id_pais,))
     datos=cursor.fetchall()
-    # id_pais= request.form['id_pais']
-    # nombre = request.form['nombre']
-    # datos ={
-    #     'id_pais':id_pais,
-    #     'nombre':nombre
-    # }
     cursor.close()
     conexion.close()
     return render_template('editar_pais.html', datos=datos)
+
+@app.route('/update2_pais/<int:id_pais>', methods=['POST'])
+def update2_pais(id_pais):
+    nombre = request.form['nombre']
+        # Conectar con la base de datos
+    conexion = psycopg2.connect (
+        database="Bliblioteca3A",
+        user="postgres",
+        password="tVE4QgrFP9rnEb",
+        host="localhost",
+        port="5432"
+    )
+    # crear un cursor (objeto para recorrer las tablas)
+    cursor = conexion.cursor()
+    # recuperar un registro con el id_pais seleccionado
+    cursor.execute('''UPDATE "Pais" SET nombre=%s WHERE id_pais=%s''', (nombre,id_pais,))
+    conexion.commit()
+    cursor.close()
+    conexion.close()
+    return redirect(url_for('index'))
